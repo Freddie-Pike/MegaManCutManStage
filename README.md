@@ -1,8 +1,7 @@
 # MEGA MAN!
 
 # Intro
-This project is a recreation of the Cutman stage from Mega Man 1 done in the Unity2D engine. Listed below are previous versions of the game with playable 
-browser versions. This Github will contain the code for the latest version with comments which will hopefully make it easy
+This project is a recreation of the Cutman stage from Mega Man 1 done in the Unity2D engine. This Github will contain the code for the latest version with comments which will hopefully make it easy
 to read for anyone looking at this project. This project is purely for fun with no intention for resell, as all sprites and music belong
 to Capcom. 
 
