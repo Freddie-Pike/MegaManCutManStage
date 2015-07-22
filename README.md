@@ -5,6 +5,8 @@ This project is a recreation of the Cutman stage from Mega Man 1 done in Unity. 
 to read for anyone looking at this project. This project is purely for fun with no intention for resell, as all sprites and music belong
 to Capcom. 
 
+Assets Link: https://www.dropbox.com/s/k6u34rkvkz3erzs/Assets.zip?dl=0
+
 # Sources
 Here are the various sources that I have used when creating this project that have helped me out tremendously.
 
