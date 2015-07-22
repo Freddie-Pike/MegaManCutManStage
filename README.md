@@ -12,7 +12,7 @@ Here are the various sources that I have used when creating this project that ha
 
 Sprites - http://www.megamangalaxy.com/sprites/nes/mm
 
-VERY helpful youtube tutorials - https://www.youtube.com/watch?v=86Bgt--Ww7w&list=PLiyfvmtjWC_Up8XNvM3OSqgbJoMQgHkVz
+VERY helpful youtube tutorials - https://www.youtube.com/playlist?list=PLiyfvmtjWC_Up8XNvM3OSqgbJoMQgHkVz
 
 Code that helped me with jumping length, credit to "dookie-boy" - https://www.reddit.com/r/Unity3D/comments/26p2yk/variable_jump_height_depending_on_button_push/ 
 
