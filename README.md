@@ -20,3 +20,5 @@ VERY helpful youtube tutorials - https://www.youtube.com/playlist?list=PLiyfvmtj
 
 Code that helped me with jumping length, credit to "dookie-boy" - https://www.reddit.com/r/Unity3D/comments/26p2yk/variable_jump_height_depending_on_button_push/ 
 
+Used the tileset provided with megadadadventures project for use with tiled - http://www.seanba.com/megadadadventures.html
+
