@@ -25,8 +25,9 @@ public class BusterPelletController : MonoBehaviour
 		GetComponent<Rigidbody2D> ().velocity = new Vector2 (speed, GetComponent<Rigidbody2D> ().velocity.y);
 	}
 
-	void OnTriggerEnter2D(Collider2D other)
+    // Destroy pellet when it has a collision with anything. 
+	void OnCollisionEnter2D(Collision2D coll)
 	{
-		Destroy (gameObject); // Destroy pellet when it hits an enemy.
+		Destroy (gameObject);
 	}
 }
