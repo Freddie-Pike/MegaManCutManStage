@@ -7,9 +7,11 @@ to Capcom.
 
 # Assets Link
 
-https://www.dropbox.com/s/k6u34rkvkz3erzs/Assets.zip?dl=0
+https://www.dropbox.com/s/bx8bg3u4uanpfx4/Assets%2008%3A08%3A15.zip?dl=0
 
 This link contains all of the animations, sprites, prefabs, scripts and scenes used in this project. 
+
+Updated August 8, 2015.
 
 # Sources
 Here are the various sources that I have used when creating this project that have helped me out tremendously.
