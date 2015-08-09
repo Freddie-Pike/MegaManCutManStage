@@ -3,8 +3,15 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour 
 {
+	// Rigidbody variable
+	private Rigidbody2D rbody2D; 
+
+	// Animation variables.
+	private Animator anim;
+
 	// Moving variables.
 	public float moveSpeed;
+	private float moveVelocity;
 
 	// Jumping variables.
 	public float jumpShortSpeed = 3f;
@@ -16,19 +23,31 @@ public class PlayerController : MonoBehaviour
 	public Transform groundCheck;
 	public float groundCheckRadious;
 	public LayerMask whatIsGround;
-	private bool grounded;
-
-	// Animation variables.
-	private Animator anim;
+	public bool grounded;
 
 	// Shooting pellet variables.
 	public Transform firePoint;
 	public GameObject busterPellet;
+	public float shotDelay;
+	private float lastTimeFired;
+
+	// Ladder variables
+	public bool onLadder;
+	public float climbSpeed;
+	private float climbVelocity;
+	private float gravityStore;
+	private LadderEndZone ladderEndZone;
+	private BoxCollider2D canClimbDown;
 	
 	// Use this for initialization.
 	void Start () 
 	{
 		anim = GetComponent<Animator> (); // Get Animator.
+
+		rbody2D = GetComponent<Rigidbody2D>();
+
+		gravityStore = rbody2D.gravityScale;
+
 	}
 
 	void FixedUpdate()
@@ -59,29 +78,21 @@ public class PlayerController : MonoBehaviour
 		anim.SetBool ("Grounded", grounded); // For Jumping animations.
 
 		// If jump key is pressed down, then jump is true. 
-		if (Input.GetKeyDown (KeyCode.Space) && grounded)
+		if (Input.GetButtonDown ("Jump") && grounded)
 		{
 			jump = true;
 		}
 
 		// If jump key is let go, then jumpCancel is true. 
-		if (Input.GetKeyUp (KeyCode.Space) && !grounded)
+		if (Input.GetButtonUp ("Jump") && !grounded)
 		{
 			jumpCancel = true;
 		}
 
-		// Move left as depended on moveSpeed.
-		if (Input.GetKey (KeyCode.D))
-		{
-			GetComponent<Rigidbody2D>().velocity = new Vector2(moveSpeed, GetComponent<Rigidbody2D>().velocity.y);
-		}
 
-		// Move right as depended on moveSpeed.
-		if (Input.GetKey (KeyCode.A))
-		{
-			GetComponent<Rigidbody2D>().velocity = new Vector2(-moveSpeed, GetComponent<Rigidbody2D>().velocity.y);
-		}
-
+		// Walking 
+		moveVelocity = moveSpeed * Input.GetAxisRaw("Horizontal");
+		rbody2D.velocity = new Vector2(moveVelocity, rbody2D.velocity.y);
 		anim.SetFloat ("Speed", Mathf.Abs (GetComponent<Rigidbody2D> ().velocity.x)); // For Walking animations.
 
 		// If-else statement to determine which direction the player is facing, used to correct animations. 
@@ -94,15 +105,66 @@ public class PlayerController : MonoBehaviour
 			transform.localScale = new Vector3(-1f, 1f, 1f);
 		}
 
-		// If shoot key is tapped, let mega man shoot.
-		if (Input.GetKeyDown (KeyCode.Return)) 
+		// If shoot key is tapped, let mega man shoot on a specific time delay.
+		if (Input.GetButtonDown ("Fire1") && Time.time - lastTimeFired > shotDelay) 
 		{
-			anim.SetBool ("IsShooting", true); // For shooting animations.
-			Instantiate (busterPellet, firePoint.position, firePoint.rotation);
+			lastTimeFired = Time.time; // Time we shot pellet
+			Fire ();
 		}
 		else
 		{
 			anim.SetBool ("IsShooting", false); // For shooting animations.
 		}
+
+
+		// Change gravity when by ladder in order for mega man to move up it. 
+		if (onLadder)
+		{
+			if (Input.GetAxis("Vertical") > 0)
+			{
+				ClimbLadder();
+			}
+
+			if (Input.GetAxis("Vertical") < 0)
+			{
+				ClimbLadder();
+			}
+
+			if (Input.GetAxis ("Vertical") == 0)
+			{
+				anim.SetBool ("Grounded", true);
+			}
+
+			if (Input.GetButton ("Jump"))
+			{
+				rbody2D.gravityScale = gravityStore;
+				anim.SetBool ("onLadder", false);
+				anim.SetBool ("Grounded", grounded);
+			}
+		}
+
+		if (!onLadder)
+		{
+			anim.SetBool ("onLadder", false);
+			rbody2D.gravityScale = gravityStore;
+			anim.SetBool ("Grounded", grounded);
+		}
+	}
+
+	// Allows Mega Man to climb up a ladder.
+	void ClimbLadder()
+	{
+		anim.SetBool ("Grounded", true);
+		anim.SetBool ("onLadder", true);
+		rbody2D.gravityScale = 0f;
+		climbVelocity = climbSpeed * Input.GetAxisRaw("Vertical");
+		rbody2D.velocity = new Vector2(rbody2D.velocity.x, climbVelocity);
+	}
+
+	// Creates the pellet that Mega Man will shoot. 
+	void Fire()
+	{
+		anim.SetBool ("IsShooting", true); // For shooting animations.
+		Instantiate (busterPellet, firePoint.position, firePoint.rotation);
 	}
 }
