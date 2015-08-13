@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
 	public GameObject busterPellet;
 	public float shotDelay;
 	private float lastTimeFired;
+	public int pelletCounter;
+	private int pelletMax = 3; 
 
 	// Ladder variables
 	public bool onLadder;
@@ -47,6 +49,8 @@ public class PlayerController : MonoBehaviour
 		rbody2D = GetComponent<Rigidbody2D>();
 
 		gravityStore = rbody2D.gravityScale;
+
+		pelletCounter = 0; // Upon game start set pellcounter to 0.s
 
 	}
 
@@ -106,8 +110,9 @@ public class PlayerController : MonoBehaviour
 		}
 
 		// If shoot key is tapped, let mega man shoot on a specific time delay.
-		if (Input.GetButtonDown ("Fire1") && Time.time - lastTimeFired > shotDelay) 
+		if (Input.GetButtonDown ("Fire1") && (Time.time - lastTimeFired > shotDelay) && (pelletCounter < pelletMax)) 
 		{
+			pelletCounter++;
 			lastTimeFired = Time.time; // Time we shot pellet
 			Fire ();
 		}
@@ -117,7 +122,7 @@ public class PlayerController : MonoBehaviour
 		}
 
 
-		// Change gravity when by ladder in order for mega man to move up it. 
+		// Change gravity when by ladder in order for mega man to be able move up it. 
 		if (onLadder)
 		{
 			if (Input.GetAxis("Vertical") > 0)
@@ -137,12 +142,13 @@ public class PlayerController : MonoBehaviour
 
 			if (Input.GetButton ("Jump"))
 			{
-				rbody2D.gravityScale = gravityStore;
 				anim.SetBool ("onLadder", false);
+				rbody2D.gravityScale = gravityStore;
 				anim.SetBool ("Grounded", grounded);
 			}
 		}
 
+		// If not on ladder, make gravity back to normal so Mega Man can jump normally.
 		if (!onLadder)
 		{
 			anim.SetBool ("onLadder", false);
@@ -161,7 +167,7 @@ public class PlayerController : MonoBehaviour
 		rbody2D.velocity = new Vector2(rbody2D.velocity.x, climbVelocity);
 	}
 
-	// Creates the pellet that Mega Man will shoot. 
+	// Creates the pellet that Mega Man will shoot.
 	void Fire()
 	{
 		anim.SetBool ("IsShooting", true); // For shooting animations.
